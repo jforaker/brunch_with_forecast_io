@@ -5,7 +5,7 @@ Brunch with fruits
 
 
 ## DEMO:
-[Brunch with forecast.io and Flickr](http://jforaker.github.io/brunch_with_forecast_io/)
+[Brunch with forecast.io and Flickr](http://jforaker.github.io/brunch_with_forecast_io/public/)
 ==================
 
 
