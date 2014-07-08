@@ -1,5 +1,13 @@
+
+
 Brunch with fruits
 ==================
+
+
+## DEMO:
+[Brunch with forecast.io and Flickr](http://jforaker.github.io/brunch_with_forecast_io/)
+==================
+
 
 A [brunch.io](http://brunch.io/) skeleton based on [Backbone](http://backbonejs.org/), [Bootstrap](http://twitter.github.com/bootstrap/), [Handlebars](http://handlebarsjs.com/), [LESS](http://lesscss.org/) / [SASS](http://sass-lang.com/), [Mocha](http://visionmedia.github.io/mocha/) / [Chai](http://chaijs.com/).
 
@@ -37,8 +45,5 @@ Run tests:
 
     http://localhost:3333/test/index.html
 
-## License
-
-[MIT](http://opensource.org/licenses/MIT)
 
 inspired by [brunch-banana-pancakes](https://github.com/Anaphase/brunch-banana-pancakes)
