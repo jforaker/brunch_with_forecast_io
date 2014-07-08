@@ -1,0 +1,116 @@
+/* Overlay style */
+@import 'drops.scss';
+
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(18, 92, 127, 0.9);
+  z-index: 9999;
+
+  figure{
+    //@extend figure.effect-layla;
+    width: calc(100% + 50px);
+    margin: 7em auto;
+    img {
+
+      width: calc(100% + 50px);
+      opacity: 0.7;
+      -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+      transition: opacity 0.35s, transform 0.35s;
+      -webkit-transform: translate3d(-40px, 0, 0);
+      transform: translate3d(-40px, 0, 0);
+    }
+    figcaption {
+      top: auto;
+      bottom: 0;
+      height: 50%;
+      text-align: left;
+    }
+
+    h2 {
+      text-align: center;
+      color: white;
+      text-transform: lowercase;
+
+      &.none{
+        display: none;
+      }
+
+      .timespan{
+        font-weight: 100;
+        text-transform: uppercase;
+        letter-spacing: 0px;
+        margin-right: 4px;
+      }
+    }
+    .canvas-holder, .chart-holder{
+      text-align: center;
+    }
+    p {
+      color: rgba(255, 255, 255, 0.6);
+      opacity: 0;
+      -webkit-transition: opacity 0.2s, -webkit-transform 0.35s;
+      transition: opacity 0.2s, transform 0.35s;
+    }
+    &:hover {
+      img, p {
+        opacity: 1;
+      }
+      img, h2 {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+      }
+      p {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+        -webkit-transition-delay: 0.05s;
+        transition-delay: 0.05s;
+        -webkit-transition-duration: 0.35s;
+        transition-duration: 0.35s;
+      }
+    }
+  }
+  .overlay-close {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    overflow: hidden;
+    border: none;
+    background: url(../img/cross.png) no-repeat center center;
+    text-indent: 200%;
+    color: transparent;
+    outline: none;
+    z-index: 100;
+  }
+}
+
+
+.overlay-hugeinc {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: opacity 0.2s, visibility 0s 0.2s;
+  transition: opacity 0.2s, visibility 0s 0.2s;
+  &.open {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: opacity 0.2s;
+    transition: opacity 0.2s;
+  }
+}
+
+@media screen and (max-height: 30.5em) {
+  .overlay {
+    nav {
+      height: 70%;
+      font-size: 34px;
+    }
+    ul li {
+      min-height: 34px;
+    }
+  }
+}

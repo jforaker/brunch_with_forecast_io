@@ -1,0 +1,43 @@
+
+
+<div id="content">
+    <div class="grid">
+        <header class="codrops-headers" style="background-size: cover;background-repeat: no-repeat;">
+            <h1>Current weather</h1>
+            <canvas id="icon" width="128" height="128"></canvas>
+            <h1>{{rightNow}} - {{tempC}}</h1>
+
+            {{#each alert}}
+                <p style="color: orangered">{{title}}: <a href="{{uri}}" target="_blank">{{uri}}</a></p>
+            {{/each}}
+
+        </header>
+
+        <h3> {{daily.summary}}</h3>
+
+        {{#each daily}}
+            {{#each this}}
+                <a href="#details/{{time}}">
+                <figure class="{{klass}}">
+                    <img class="img"/>
+                    <figcaption>
+                        <div>
+                            <h4><span class="time">{{time}}</span> </h4>
+                            <p>
+                                <canvas class="{{this.icon}}" width="111" height="111">{{icon}}</canvas>
+                            </p>
+
+                        </div>
+
+                        <h2 class="">{{summary}}</h2>
+
+                    </figcaption>
+                </figure>
+                </a>
+            {{/each}}
+        {{/each}}
+    </div>
+</div>
+<div id="deets">
+    <div class="overlay close" style="display: none"></div>
+</div>

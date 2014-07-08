@@ -1,0 +1,28 @@
+<div class="overlay overlay-hugeinc">
+    <button type="button" class="overlay-close">Close</button>
+
+    {{#each alert}}
+        <p>{{title}}: <a href="{{uri}}" target="_blank">{{uri}}</a></p>
+    {{/each}}
+
+
+
+            <figure>
+                <figcaption>
+
+                    <h2><span class="timespan">{{time}}</span>{{summary}}</h2>
+                    <h2 class="{{precipProbability}}">chance of rain: {{precipProbability}}%</h2>
+
+
+                    <div class="canvas-holder">
+                        <canvas class="{{icon}}" width="111" height="111">{{icon}}</canvas>
+                    </div>
+
+                    <div class="chart-holder">
+                        <canvas id="myChart" width="666" height="400" style="margin: 0 auto"></canvas>
+                    </div>
+
+                </figcaption>
+            </figure>
+
+</div>
