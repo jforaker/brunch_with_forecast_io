@@ -1,1 +1,992 @@
-!function(){"use strict";var e="undefined"!=typeof window?window:global;if("function"!=typeof e.require){var t={},a={},o=function(e,t){return{}.hasOwnProperty.call(e,t)},n=function(e,t){var a,o,n=[];a=/^\.\.?(\/|$)/.test(t)?[e,t].join("/").split("/"):t.split("/");for(var r=0,i=a.length;i>r;r++)o=a[r],".."===o?n.pop():"."!==o&&""!==o&&n.push(o);return n.join("/")},r=function(e){return e.split("/").slice(0,-1).join("/")},i=function(t){return function(a){var o=r(t),i=n(o,a);return e.require(i,t)}},l=function(e,t){var o={id:e,exports:{}};return a[e]=o,t(o.exports,i(e),o),o.exports},s=function(e,r){var i=n(e,".");if(null==r&&(r="/"),o(a,i))return a[i].exports;if(o(t,i))return l(i,t[i]);var s=n(i,"./index");if(o(a,s))return a[s].exports;if(o(t,s))return l(s,t[s]);throw new Error('Cannot find module "'+e+'" from "'+r+'"')},c=function(e,a){if("object"==typeof e)for(var n in e)o(e,n)&&(t[n]=e[n]);else t[e]=a},h=function(){var e=[];for(var a in t)o(t,a)&&e.push(a);return e};e.require=s,e.require.define=c,e.require.register=c,e.require.list=h,e.require.brunch=!0}}(),require.register("application",function(e,t){Application={initialize:function(){var e=t("router");this.router=new e,"function"==typeof Object.freeze&&Object.freeze(this)}},$(function(){Application.initialize(),Backbone.history.start()})}),require.register("modules/common/chartConfig",function(e,t,a){var o=function(){var e={animation:!0,animationSteps:60,animationEasing:"easeOutQuart",showScale:!0,scaleOverride:!1,scaleSteps:null,scaleStepWidth:null,scaleStartValue:null,scaleLineColor:"rgba(0,0,0,.1)",scaleLineWidth:1,scaleShowLabels:!0,scaleLabel:"<%=value%>",scaleIntegersOnly:!0,scaleBeginAtZero:!1,scaleFontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",scaleFontSize:12,scaleFontStyle:"normal",scaleFontColor:"#666",responsive:!1,showTooltips:!0,tooltipEvents:["mousemove","touchstart","touchmove"],tooltipFillColor:"rgba(0,0,0,0.8)",tooltipFontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",tooltipFontSize:20,tooltipFontStyle:"normal",tooltipFontColor:"#fff",tooltipTitleFontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",tooltipTitleFontSize:20,tooltipTitleFontStyle:"bold",tooltipTitleFontColor:"#fff",tooltipYPadding:6,tooltipXPadding:6,tooltipCaretSize:8,tooltipCornerRadius:6,tooltipXOffset:10,tooltipTemplate:"<%if (label){%><%=label%>: <%}%><%= value %>",multiTooltipTemplate:"<%= value %>",onAnimationProgress:function(){},onAnimationComplete:function(){}};return e}();a.exports=o}),require.register("modules/common/forecast_config",function(e,t,a){var o=function(){var e,t;return e={apiKey:"c6ff3174b600aa0ebb178e6dbdc2f1cb",url:"https://api.forecast.io/forecast/"},new(t=function(t,a){var o=Object.create(e);return o.lat=t,o.long=a,o})("40.7657","-73.9158")};a.exports=o}),require.register("modules/common/overlay",function(e,t,a){var o=function(){function e(){this.el=document.querySelector("div.overlay"),this._init()}return e.prototype={_init:function(){var e=this;e._open()},_open:function(){console.log("OOPEENNNN");var e=this;return $(e.el).removeClass("close"),$(".overlay").addClass("open"),console.log($(e.el)),$(e.el).addClass("open")},_close:function(){console.log("CLODININSINIS");var e=this,t=e.el;classie.remove(t,"open"),classie.add(t,"close")}},e}(window);a.exports=o}),require.register("modules/home/Collection",function(e,t,a){var o=t("./tempModel"),n=Backbone.Model.extend({url:function(){var e,t;e={apiKey:"c6ff3174b600aa0ebb178e6dbdc2f1cb",url:"https://api.forecast.io/forecast/"},t=function(t,a){var o=Object.create(e);return o.lat=t,o.long=a,o};var a=new t("40.7657","-73.9158"),o=a.url+a.apiKey+"/"+a.lat+","+a.long+"?callback=?";return console.log(o),o},model:o,parse:function(e){return console.log(e),this.model=new o({tempC:e.currently.temperature,tempCFeel:e.currently.apparentTemperature,icon:e.currently.icon}),this.model}});a.exports=n}),require.register("modules/home/details",function(e,t,a){var o=t("./detailsTemplate"),n=t("./detailsModel"),r=t("modules/common/overlay"),i=t("modules/common/forecast_config"),l=t("modules/common/chartConfig"),s=Backbone.View.extend({template:o,model:n,el:"#deets",events:{"click button.overlay-close":"closeIt"},initialize:function(e){function t(e){$.getJSON(o.url+o.apiKey+"/"+o.lat+","+o.long+","+a.time+"?callback=?",function(t){e(t)})}var a=this,o=new i;_.bindAll(this,"render","closeIt"),this.time=e,t(function(e){var t=new n({data:e});console.log(t),a.render(t)})},closeIt:function(){var e=new r;e._close(),Backbone.history.navigate("")},render:function(e){for(var t=this,a=new r,o=[],n=[],i=0;i<e.attributes.data.hourly.data.length;i++){var s=e.attributes.data.hourly.data[i];o.push(s.temperature),n.push(s.precipProbability)}var c={labels:["12AM","2AM","4AM","6AM","8AM","10AM","noon","2PM","4PM","6PM","8PM","10PM","3","4","5","6","7","8","9","10","asdf","asdf","asdf","asdf"],datasets:[{label:"My First dataset",fillColor:"rgba(220,220,220,0.2)",strokeColor:"rgba(220,220,220,1)",pointColor:"rgba(220,220,220,1)",pointStrokeColor:"#fff",pointHighlightFill:"#fff",pointHighlightStroke:"rgba(220,220,220,1)",data:o},{label:"My second dataset",fillColor:"rgba(151,187,205,0.2)",strokeColor:"rgba(151,187,205,1)",pointColor:"rgba(151,187,205,1)",pointStrokeColor:"#fff",pointHighlightFill:"#fff",pointHighlightStroke:"rgba(151,187,205,1)",data:n}]};setTimeout(function(){$(t.el).show(),a._open();var e=$("#myChart").get(0).getContext("2d");new Chart(e).Line(c,l)},1);var h=e.attributes.data.currently,d=e.attributes.data.alerts;this.$el.html(this.template({alert:d,time:h.time,icon:h.icon,summary:e.attributes.data.daily.data[0].summary,daily:e.attributes.data.daily,precipProbability:h.precipProbability>.05?100*h.precipProbability:"none"}));var u,p=new Skycons({color:"white"}),f=["clear-day","clear-night","partly-cloudy-day","partly-cloudy-night","cloudy","rain","sleet","snow","wind","fog"];for(u=f.length;u--;)for(var m=f[u],g=document.getElementsByClassName(m),y=g.length;y--;)p.set(g[y],m);var v=$("figure"),b=v.find(".timespan"),w=moment.unix(b.text()).format("dddd");return b.text(w),p.play(),this}});a.exports=s}),require.register("modules/home/detailsModel",function(e,t,a){var o=Backbone.Model.extend({defaults:{icon:"",tempC:"",tempCFeel:""}});a.exports=o}),require.register("modules/home/detailsTemplate",function(e,t,a){var o=Handlebars.template(function(e,t,a,o,n){function r(e,t){var o,n,r="";return r+="\n        <p>",(n=a.title)?o=n.call(e,{hash:{},data:t}):(n=e&&e.title,o=typeof n===c?n.call(e,{hash:{},data:t}):n),r+=h(o)+': <a href="',(n=a.uri)?o=n.call(e,{hash:{},data:t}):(n=e&&e.uri,o=typeof n===c?n.call(e,{hash:{},data:t}):n),r+=h(o)+'" target="_blank">',(n=a.uri)?o=n.call(e,{hash:{},data:t}):(n=e&&e.uri,o=typeof n===c?n.call(e,{hash:{},data:t}):n),r+=h(o)+"</a></p>\n    "}this.compilerInfo=[4,">= 1.0.0"],a=this.merge(a,e.helpers),n=n||{};var i,l,s="",c="function",h=this.escapeExpression,d=this;return s+='<div class="overlay overlay-hugeinc">\n    <button type="button" class="overlay-close">Close</button>\n\n    ',i=a.each.call(t,t&&t.alert,{hash:{},inverse:d.noop,fn:d.program(1,r,n),data:n}),(i||0===i)&&(s+=i),s+='\n\n\n\n            <figure>\n                <figcaption>\n\n                    <h2><span class="timespan">',(l=a.time)?i=l.call(t,{hash:{},data:n}):(l=t&&t.time,i=typeof l===c?l.call(t,{hash:{},data:n}):l),s+=h(i)+"</span>",(l=a.summary)?i=l.call(t,{hash:{},data:n}):(l=t&&t.summary,i=typeof l===c?l.call(t,{hash:{},data:n}):l),s+=h(i)+'</h2>\n                    <h2 class="',(l=a.precipProbability)?i=l.call(t,{hash:{},data:n}):(l=t&&t.precipProbability,i=typeof l===c?l.call(t,{hash:{},data:n}):l),s+=h(i)+'">chance of rain: ',(l=a.precipProbability)?i=l.call(t,{hash:{},data:n}):(l=t&&t.precipProbability,i=typeof l===c?l.call(t,{hash:{},data:n}):l),s+=h(i)+'%</h2>\n\n\n                    <div class="canvas-holder">\n                        <canvas class="',(l=a.icon)?i=l.call(t,{hash:{},data:n}):(l=t&&t.icon,i=typeof l===c?l.call(t,{hash:{},data:n}):l),s+=h(i)+'" width="111" height="111">',(l=a.icon)?i=l.call(t,{hash:{},data:n}):(l=t&&t.icon,i=typeof l===c?l.call(t,{hash:{},data:n}):l),s+=h(i)+'</canvas>\n                    </div>\n\n                    <div class="chart-holder">\n                        <canvas id="myChart" width="666" height="400" style="margin: 0 auto"></canvas>\n                    </div>\n\n                </figcaption>\n            </figure>\n\n</div>\n'});"function"==typeof define&&define.amd?define([],function(){return o}):"object"==typeof a&&a&&a.exports&&(a.exports=o)}),require.register("modules/home/home",function(e,t,a){var o=Handlebars.template(function(e,t,a,o,n){function r(e,t){var o,n,r="";return r+='\n                <p style="color: orangered">',(n=a.title)?o=n.call(e,{hash:{},data:t}):(n=e&&e.title,o=typeof n===d?n.call(e,{hash:{},data:t}):n),r+=u(o)+': <a href="',(n=a.uri)?o=n.call(e,{hash:{},data:t}):(n=e&&e.uri,o=typeof n===d?n.call(e,{hash:{},data:t}):n),r+=u(o)+'" target="_blank">',(n=a.uri)?o=n.call(e,{hash:{},data:t}):(n=e&&e.uri,o=typeof n===d?n.call(e,{hash:{},data:t}):n),r+=u(o)+"</a></p>\n            "}function i(e,t){var o,n="";return n+="\n            ",o=a.each.call(e,e,{hash:{},inverse:p.noop,fn:p.program(4,l,t),data:t}),(o||0===o)&&(n+=o),n+="\n        "}function l(e,t){var o,n,r="";return r+='\n                <a href="#details/',(n=a.time)?o=n.call(e,{hash:{},data:t}):(n=e&&e.time,o=typeof n===d?n.call(e,{hash:{},data:t}):n),r+=u(o)+'">\n                <figure class="',(n=a.klass)?o=n.call(e,{hash:{},data:t}):(n=e&&e.klass,o=typeof n===d?n.call(e,{hash:{},data:t}):n),r+=u(o)+'">\n                    <img class="img"/>\n                    <figcaption>\n                        <div>\n                            <h4><span class="time">',(n=a.time)?o=n.call(e,{hash:{},data:t}):(n=e&&e.time,o=typeof n===d?n.call(e,{hash:{},data:t}):n),r+=u(o)+'</span> </h4>\n                            <p>\n                                <canvas class="'+u((o=e&&e.icon,typeof o===d?o.apply(e):o))+'" width="111" height="111">',(n=a.icon)?o=n.call(e,{hash:{},data:t}):(n=e&&e.icon,o=typeof n===d?n.call(e,{hash:{},data:t}):n),r+=u(o)+'</canvas>\n                            </p>\n\n                        </div>\n\n                        <h2 class="">',(n=a.summary)?o=n.call(e,{hash:{},data:t}):(n=e&&e.summary,o=typeof n===d?n.call(e,{hash:{},data:t}):n),r+=u(o)+"</h2>\n\n                    </figcaption>\n                </figure>\n                </a>\n            "}this.compilerInfo=[4,">= 1.0.0"],a=this.merge(a,e.helpers),n=n||{};var s,c,h="",d="function",u=this.escapeExpression,p=this;return h+='\n\n<div id="content">\n    <div class="grid">\n        <header class="codrops-headers" style="background-size: cover;background-repeat: no-repeat;">\n            <h1>Current weather</h1>\n            <canvas id="icon" width="128" height="128"></canvas>\n            <h1>',(c=a.rightNow)?s=c.call(t,{hash:{},data:n}):(c=t&&t.rightNow,s=typeof c===d?c.call(t,{hash:{},data:n}):c),h+=u(s)+" - ",(c=a.tempC)?s=c.call(t,{hash:{},data:n}):(c=t&&t.tempC,s=typeof c===d?c.call(t,{hash:{},data:n}):c),h+=u(s)+"</h1>\n\n            ",s=a.each.call(t,t&&t.alert,{hash:{},inverse:p.noop,fn:p.program(1,r,n),data:n}),(s||0===s)&&(h+=s),h+="\n\n        </header>\n\n        <h3> "+u((s=t&&t.daily,s=null==s||s===!1?s:s.summary,typeof s===d?s.apply(t):s))+"</h3>\n\n        ",s=a.each.call(t,t&&t.daily,{hash:{},inverse:p.noop,fn:p.program(3,i,n),data:n}),(s||0===s)&&(h+=s),h+='\n    </div>\n</div>\n<div id="deets">\n    <div class="overlay close" style="display: none"></div>\n</div>'});"function"==typeof define&&define.amd?define([],function(){return o}):"object"==typeof a&&a&&a.exports&&(a.exports=o)}),require.register("modules/home/tempModel",function(e,t,a){var o=Backbone.Model.extend({defaults:{icon:"",tempC:"",tempCFeel:""}});a.exports=o}),require.register("modules/home/views",function(e,t,a){var o=t("./home"),n=t("./tempModel"),r=t("modules/home/Collection"),i=t("modules/common/forecast_config"),l=Backbone.View.extend({template:o,model:n,el:"#main",initialize:function(){function e(e){$.getJSON(t.url+t.apiKey+"/"+t.lat+","+t.long+"?callback=?",function(t){e(t)})}this.collection=new r;var t=new i;console.log(t);var a=this;e(function(e){var t=new n({data:e,tempC:e.currently.temperature,tempCFeel:e.currently.apparentTemperature,icon:e.currently.icon});console.log(t),a.render(t)})},getDayName:function(){return"wednesday"},render:function(e){function t(e){var t=e;return t=t.replace(/-/g," ")}$("#temp").hide();var a=new Skycons({color:"white"}),o="undefined"!=typeof e.get("icon")?e.get("icon"):"",n=e.attributes.data.alerts,r=e.attributes.data.currently.time,i=function(){var e="https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=08db47bcad763eaab656eb51e4726090&&tags="+encodeURI(o)+"&media=photos&per_page=10&page=1&format=json&nojsoncallback=1";console.log(e),$.getJSON(e,function(e){var t=Math.floor(10*Math.random())+1,a="https://farm"+e.photos.photo[t].farm+".staticflickr.com/"+e.photos.photo[t].server+"/"+e.photos.photo[t].id+"_"+e.photos.photo[t].secret+"_b.jpg";console.log(a),$(".codrops-header").css("background-image","url("+a+")")})};i(),console.log(e),this.$el.html(this.template({rightNow:e.attributes.data.currently.summary,time:moment.unix(r).format(" h:mm:ss a MM/DD/YYYY"),alert:n,summary:e.get("summary"),tempC:e.get("tempC"),tempCFeel:e.get("tempCFeel"),icon:e.get("icon"),daily:e.attributes.data.daily})),a.set("icon",o.toUpperCase());var l,s=new Skycons({color:"white"}),c=["clear-day","clear-night","partly-cloudy-day","partly-cloudy-night","cloudy","rain","sleet","snow","wind","fog"],h=["effect-lily","effect-marley","effect-roxy","effect-bubba","effect-layla","effect-marley","effect-ruby","effect-sarah"];for(l=c.length;l--;)for(var d=c[l],u=document.getElementsByClassName(d),p=u.length;p--;)s.set(u[p],d);for(var f=0;f<h.length;f++){{var m=h[f],g=$("figure");$(".img")}$(g[f]).addClass(m)}var y=$("figure");return y.each(function(){var e=$(this).find("canvas").attr("class"),a=t(e),o=$(this),n=moment.unix($(this).find(".time").text()).format("dddd");$(this).find(".time").text(n),function(){var e="https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=08db47bcad763eaab656eb51e4726090&&tags="+encodeURI(a)+"&media=photos&per_page=10&page=1&format=json&nojsoncallback=1";console.log(e),$.getJSON(e,function(e){var t=Math.floor(10*Math.random())+1,a="https://farm"+e.photos.photo[t].farm+".staticflickr.com/"+e.photos.photo[t].server+"/"+e.photos.photo[t].id+"_"+e.photos.photo[t].secret+".jpg";o.find("img").attr("src",a)})}()}),s.play(),a.play(),this}});a.exports=l}),require.register("router",function(e,t,a){{var o=t("modules/home/views"),n=t("modules/home/details"),r=t("modules/common/forecast_config");t("modules/home/detailsModel")}a.exports=Backbone.Router.extend({routes:{"":"home","details/:id":"details"},home:function(){console.log("home"),$("#main").html((new o).render())},details:function(e){console.log("IIIDDD ==  "+e);new r;this.time=e;var t=new n;t.initialize(e)}})});
+(function(/*! Brunch !*/) {
+  'use strict';
+
+  var globals = typeof window !== 'undefined' ? window : global;
+  if (typeof globals.require === 'function') return;
+
+  var modules = {};
+  var cache = {};
+
+  var has = function(object, name) {
+    return ({}).hasOwnProperty.call(object, name);
+  };
+
+  var expand = function(root, name) {
+    var results = [], parts, part;
+    if (/^\.\.?(\/|$)/.test(name)) {
+      parts = [root, name].join('/').split('/');
+    } else {
+      parts = name.split('/');
+    }
+    for (var i = 0, length = parts.length; i < length; i++) {
+      part = parts[i];
+      if (part === '..') {
+        results.pop();
+      } else if (part !== '.' && part !== '') {
+        results.push(part);
+      }
+    }
+    return results.join('/');
+  };
+
+  var dirname = function(path) {
+    return path.split('/').slice(0, -1).join('/');
+  };
+
+  var localRequire = function(path) {
+    return function(name) {
+      var dir = dirname(path);
+      var absolute = expand(dir, name);
+      return globals.require(absolute, path);
+    };
+  };
+
+  var initModule = function(name, definition) {
+    var module = {id: name, exports: {}};
+    cache[name] = module;
+    definition(module.exports, localRequire(name), module);
+    return module.exports;
+  };
+
+  var require = function(name, loaderPath) {
+    var path = expand(name, '.');
+    if (loaderPath == null) loaderPath = '/';
+
+    if (has(cache, path)) return cache[path].exports;
+    if (has(modules, path)) return initModule(path, modules[path]);
+
+    var dirIndex = expand(path, './index');
+    if (has(cache, dirIndex)) return cache[dirIndex].exports;
+    if (has(modules, dirIndex)) return initModule(dirIndex, modules[dirIndex]);
+
+    throw new Error('Cannot find module "' + name + '" from '+ '"' + loaderPath + '"');
+  };
+
+  var define = function(bundle, fn) {
+    if (typeof bundle === 'object') {
+      for (var key in bundle) {
+        if (has(bundle, key)) {
+          modules[key] = bundle[key];
+        }
+      }
+    } else {
+      modules[bundle] = fn;
+    }
+  };
+
+  var list = function() {
+    var result = [];
+    for (var item in modules) {
+      if (has(modules, item)) {
+        result.push(item);
+      }
+    }
+    return result;
+  };
+
+  globals.require = require;
+  globals.require.define = define;
+  globals.require.register = define;
+  globals.require.list = list;
+  globals.require.brunch = true;
+})();
+require.register("application", function(exports, require, module) {
+// Application init.
+Application = {
+    initialize: function() {
+        var Router   = require('router');
+        this.router  = new Router();
+        if (typeof Object.freeze === 'function') Object.freeze(this);
+    }
+};
+
+$(function() {
+    Application.initialize();
+    Backbone.history.start();
+});
+
+});
+
+;require.register("modules/common/chartConfig", function(exports, require, module) {
+/**
+ * Created by jakeforaker on 7/7/14.
+ */
+var chartConfig = (function() {
+
+    var chartOptions = {
+        // Boolean - Whether to animate the chart
+        animation: true,
+
+        // Number - Number of animation steps
+        animationSteps: 60,
+
+        // String - Animation easing effect
+        animationEasing: "easeOutQuart",
+
+        // Boolean - If we should show the scale at all
+        showScale: true,
+
+        // Boolean - If we want to override with a hard coded scale
+        scaleOverride: false,
+
+        // ** Required if scaleOverride is true **
+        // Number - The number of steps in a hard coded scale
+        scaleSteps: null,
+        // Number - The value jump in the hard coded scale
+        scaleStepWidth: null,
+        // Number - The scale starting value
+        scaleStartValue: null,
+
+        // String - Colour of the scale line
+        scaleLineColor: "rgba(0,0,0,.1)",
+
+        // Number - Pixel width of the scale line
+        scaleLineWidth: 1,
+
+        // Boolean - Whether to show labels on the scale
+        scaleShowLabels: true,
+
+        // Interpolated JS string - can access value
+        scaleLabel: "<%=value%>",
+
+        // Boolean - Whether the scale should stick to integers, not floats even if drawing space is there
+        scaleIntegersOnly: true,
+
+        // Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+        scaleBeginAtZero: false,
+
+        // String - Scale label font declaration for the scale label
+        scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+        // Number - Scale label font size in pixels
+        scaleFontSize: 12,
+
+        // String - Scale label font weight style
+        scaleFontStyle: "normal",
+
+        // String - Scale label font colour
+        scaleFontColor: "#666",
+
+        // Boolean - whether or not the chart should be responsive and resize when the browser does.
+        responsive: false,
+
+        // Boolean - Determines whether to draw tooltips on the canvas or not
+        showTooltips: true,
+
+        // Array - Array of string names to attach tooltip events
+        tooltipEvents: ["mousemove", "touchstart", "touchmove"],
+
+        // String - Tooltip background colour
+        tooltipFillColor: "rgba(0,0,0,0.8)",
+
+        // String - Tooltip label font declaration for the scale label
+        tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+        // Number - Tooltip label font size in pixels
+        tooltipFontSize: 20,
+
+        // String - Tooltip font weight style
+        tooltipFontStyle: "normal",
+
+        // String - Tooltip label font colour
+        tooltipFontColor: "#fff",
+
+        // String - Tooltip title font declaration for the scale label
+        tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+
+        // Number - Tooltip title font size in pixels
+        tooltipTitleFontSize: 20,
+
+        // String - Tooltip title font weight style
+        tooltipTitleFontStyle: "bold",
+
+        // String - Tooltip title font colour
+        tooltipTitleFontColor: "#fff",
+
+        // Number - pixel width of padding around tooltip text
+        tooltipYPadding: 6,
+
+        // Number - pixel width of padding around tooltip text
+        tooltipXPadding: 6,
+
+        // Number - Size of the caret on the tooltip
+        tooltipCaretSize: 8,
+
+        // Number - Pixel radius of the tooltip border
+        tooltipCornerRadius: 6,
+
+        // Number - Pixel offset from point x to tooltip edge
+        tooltipXOffset: 10,
+
+        // String - Template string for single tooltips
+        tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
+
+        // String - Template string for single tooltips
+        multiTooltipTemplate: "<%= value %>",
+
+        // Function - Will fire on animation progression.
+        onAnimationProgress: function(){},
+
+        // Function - Will fire on animation completion.
+        onAnimationComplete: function(){}
+    };
+    return chartOptions
+
+})();
+
+
+// add to global namespace
+
+module.exports = chartConfig;
+});
+
+;require.register("modules/common/forecast_config", function(exports, require, module) {
+// Place for Handlebars custom helpers
+// For example:
+// Handlebars.registerHelper('eachKeyValue', function(context, block) {
+//     return _.reduce(context, function(memo, value, key){
+//         return memo + block.fn({'key': key, 'value': value});
+//     }, "");
+// });
+
+var ForecastIO = function forecastData(){
+    var forecastConfig, skycons, MakeForecast;
+
+    forecastConfig = {
+        apiKey:'c6ff3174b600aa0ebb178e6dbdc2f1cb',
+        url : 'https://api.forecast.io/forecast/'
+    };
+
+    MakeForecast = function(lat, long){
+        var forecast = Object.create(forecastConfig); //always have key/ url
+        forecast.lat = lat;
+        forecast.long = long;
+        return forecast;
+    };
+
+    return new MakeForecast('40.7657', '-73.9158');
+};
+
+
+module.exports = ForecastIO;
+});
+
+;require.register("modules/common/overlay", function(exports, require, module) {
+/**
+ * Created by jakeforaker on 7/6/14.
+ */
+//
+//var ShowOverlay = function() {
+//    var that = this;
+//    var triggerBttn = document.getElementById( 'trigger-overlay' ),
+//        overlay = document.querySelector( 'div.overlay' ),
+//        closeBttn = overlay.querySelector( 'button.overlay-close' );
+//    transEndEventNames = {
+//        'WebkitTransition': 'webkitTransitionEnd',
+//        'MozTransition': 'transitionend',
+//        'OTransition': 'oTransitionEnd',
+//        'msTransition': 'MSTransitionEnd',
+//        'transition': 'transitionend'
+//    },
+//        transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
+//        support = { transitions : Modernizr.csstransitions };
+//    function toggleOverlay() {
+//        if( classie.has( overlay, 'open' ) ) {
+//            classie.remove( overlay, 'open' );
+//            classie.add( overlay, 'close' );
+//            var onEndTransitionFn = function( ev ) {
+//                if( support.transitions ) {
+//                    if( ev.propertyName !== 'visibility' ) return;
+//                    this.removeEventListener( transEndEventName, onEndTransitionFn );
+//                }
+//                classie.remove( overlay, 'close' );
+//            };
+//            if( support.transitions ) {
+//                overlay.addEventListener( transEndEventName, onEndTransitionFn );
+//            }
+//            else {
+//                onEndTransitionFn();
+//            }
+//        }
+//        else if( !classie.has( overlay, 'close' ) ) {
+//            classie.add( overlay, 'open' );
+//        }
+//    }
+//
+//    function backHome(){
+//        $(that.el).hide();
+//        Backbone.history.navigate('');
+//    }
+//
+//    toggleOverlay();
+//
+//
+//
+//    closeBttn.addEventListener( 'click', backHome );
+//    return this
+//};
+//
+//module.exports = ShowOverlay;
+
+
+var showIt = ( function( window ) {
+
+    function Overlay() {
+        this.el = document.querySelector('div.overlay');
+        this._init();
+    }
+
+    Overlay.prototype = {
+
+        _init : function() {
+            var that = this;
+            that._open();
+        },
+
+        _open: function(){
+            console.log("OOPEENNNN");
+            var that = this;
+            $(that.el).removeClass('close');
+            $('.overlay').addClass('open');
+            console.log($(that.el));
+            return  $(that.el).addClass('open');
+        },
+
+        _close: function(){
+            console.log("CLODININSINIS");
+            var that = this;
+            var o =  that.el;
+            classie.remove( o, 'open' );
+            classie.add( o, 'close' );
+        }
+    };
+
+    return Overlay
+
+} )( window );
+
+
+module.exports = showIt;
+});
+
+;require.register("modules/home/Collection", function(exports, require, module) {
+/**
+ * Created by jakeforaker on 7/4/14.
+ */
+var TempModel = require('./tempModel');
+
+var ForecastCollection = Backbone.Model.extend({
+
+    url: function(){
+        var forecastConfig, skycons, MakeForecast;
+
+        forecastConfig = {
+            apiKey:'c6ff3174b600aa0ebb178e6dbdc2f1cb',
+            url : 'https://api.forecast.io/forecast/'
+        };
+
+        MakeForecast = function(lat, long){
+            var forecast = Object.create(forecastConfig); //always have key/ url
+            forecast.lat = lat;
+            forecast.long = long;
+            return forecast;
+        };
+
+        //40.6700° N, 73.9400° W
+        var newFore = new MakeForecast('40.7657', '-73.9158');
+        var url = newFore.url + newFore.apiKey + "/" + newFore.lat + "," + newFore.long + "?callback=?";
+        console.log(url);
+
+        return url
+
+    },
+
+    model: TempModel,
+
+    parse: function(data) {
+        console.log(data);
+        this.model = new TempModel({
+            tempC: data.currently.temperature,
+            tempCFeel: data.currently.apparentTemperature,
+            icon: data.currently.icon
+        });
+        return this.model;
+    }
+});
+
+
+module.exports = ForecastCollection;
+});
+
+;require.register("modules/home/details", function(exports, require, module) {
+/**
+ * Created by jakeforaker on 7/6/14.
+ */
+var template = require('./detailsTemplate');
+var DetailsModel = require('./detailsModel');
+var ShowOverlay = require('modules/common/overlay');
+var utils = require('modules/common/forecast_config');
+var ChartConfigs = require('modules/common/chartConfig');
+
+var DetailsView = Backbone.View.extend({
+    template: template,
+    model: DetailsModel,
+    el: "#deets",
+    events: {
+        'click button.overlay-close': 'closeIt'
+    },
+
+    initialize: function(time){
+        var that = this;
+        var newFore = new utils();
+        _.bindAll(this, 'render', 'closeIt');
+        this.time = time;
+
+        function getval( callback ){
+            $.getJSON(newFore.url + newFore.apiKey + "/" + newFore.lat + "," + newFore.long + "," + that.time + "?callback=?", function(data) {
+                callback(data);
+            });
+        }
+
+        getval( function ( o ) {
+            var modd = new DetailsModel({
+                data : o
+            });
+            console.log(modd);
+            that.render(modd);
+        });
+    },
+
+    closeIt: function(){
+        var a = new ShowOverlay();
+        a._close();
+        Backbone.history.navigate('');
+    },
+
+    render: function(model){
+        var that = this;
+        var a = new ShowOverlay();
+        var temps = [];
+        var precipProbability = [];
+        for(var x = 0; x < model.attributes.data.hourly.data.length; x++){
+            var data = model.attributes.data.hourly.data[x];
+            temps.push(data.temperature);
+            precipProbability.push(data.precipProbability);
+        }
+        var dat = {
+            /*
+             12AM 2AM 4AM 6AM 8AM 10AM noon 2PM 4PM 6PM 8PM 10PM
+             */
+            labels: ["12AM", "2AM", "4AM", "6AM", "8AM", "10AM", "noon", "2PM", "4PM", "6PM", "8PM", "10PM", "3", "4", "5", "6", "7", "8", "9", "10", "asdf", "asdf", "asdf", "asdf"],
+            datasets: [
+                {
+                    label: "My First dataset",
+                    fillColor: "rgba(220,220,220,0.2)",
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: temps
+                },
+                {
+                    label: "My second dataset",
+                    fillColor : "rgba(151,187,205,0.2)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    pointColor : "rgba(151,187,205,1)",
+                    pointStrokeColor : "#fff",
+                    pointHighlightFill : "#fff",
+                    pointHighlightStroke : "rgba(151,187,205,1)",
+                    data: precipProbability
+                }
+            ]
+        };
+
+
+
+        setTimeout(function(){
+            $(that.el).show();
+            a._open();
+
+            var ctx = $("#myChart").get(0).getContext("2d");
+            new Chart(ctx).Line(dat, ChartConfigs);
+
+        }, 1);
+
+        var current = model.attributes.data.currently;
+        var alerts = model.attributes.data.alerts;
+
+        this.$el.html(this.template({
+            alert: alerts,
+            time: current.time,
+            icon: current.icon,
+            summary: model.attributes.data.daily.data[0].summary,
+            daily: model.attributes.data.daily,
+            precipProbability: current.precipProbability > 0.05 ? current.precipProbability * 100 : 'none'
+        }));
+
+
+
+        var icons = new Skycons({"color":"white"}),
+            list = [
+                "clear-day",
+                "clear-night",
+                "partly-cloudy-day",
+                "partly-cloudy-night",
+                "cloudy",
+                "rain",
+                "sleet",
+                "snow",
+                "wind",
+                "fog"
+            ], i;
+
+        for(i = list.length; i--; ) {
+            var weatherType = list[i],
+                elements = document.getElementsByClassName(weatherType);
+            for (var e = elements.length; e--;){
+                icons.set( elements[e], weatherType );
+            }
+        }
+
+
+
+        var fig = $('figure');
+        var timespan = fig.find('.timespan');
+        var firstDay = moment.unix(timespan.text()).format("dddd");
+        timespan.text(firstDay);
+
+        icons.play();
+
+        return this;
+    }
+});
+
+module.exports = DetailsView;
+});
+
+;require.register("modules/home/detailsModel", function(exports, require, module) {
+/**
+ * Created by jakeforaker on 7/6/14.
+ */
+var DetailsModel = Backbone.Model.extend({
+
+    defaults:{
+        icon: '',
+        tempC: '',
+        tempCFeel: ''
+    }
+});
+
+
+module.exports = DetailsModel;
+});
+
+;require.register("modules/home/detailsTemplate", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\n        <p>";
+  if (helper = helpers.title) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.title); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + ": <a href=\"";
+  if (helper = helpers.uri) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.uri); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" target=\"_blank\">";
+  if (helper = helpers.uri) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.uri); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</a></p>\n    ";
+  return buffer;
+  }
+
+  buffer += "<div class=\"overlay overlay-hugeinc\">\n    <button type=\"button\" class=\"overlay-close\">Close</button>\n\n    ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.alert), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n\n\n\n            <figure>\n                <figcaption>\n\n                    <h2><span class=\"timespan\">";
+  if (helper = helpers.time) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.time); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</span>";
+  if (helper = helpers.summary) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.summary); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</h2>\n                    <h2 class=\"";
+  if (helper = helpers.precipProbability) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.precipProbability); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">chance of rain: ";
+  if (helper = helpers.precipProbability) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.precipProbability); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "%</h2>\n\n\n                    <div class=\"canvas-holder\">\n                        <canvas class=\"";
+  if (helper = helpers.icon) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.icon); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" width=\"111\" height=\"111\">";
+  if (helper = helpers.icon) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.icon); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</canvas>\n                    </div>\n\n                    <div class=\"chart-holder\">\n                        <canvas id=\"myChart\" width=\"666\" height=\"400\" style=\"margin: 0 auto\"></canvas>\n                    </div>\n\n                </figcaption>\n            </figure>\n\n</div>\n";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("modules/home/home", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression, self=this;
+
+function program1(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\n                <p style=\"color: orangered\">";
+  if (helper = helpers.title) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.title); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + ": <a href=\"";
+  if (helper = helpers.uri) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.uri); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\" target=\"_blank\">";
+  if (helper = helpers.uri) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.uri); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</a></p>\n            ";
+  return buffer;
+  }
+
+function program3(depth0,data) {
+  
+  var buffer = "", stack1;
+  buffer += "\n            ";
+  stack1 = helpers.each.call(depth0, depth0, {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n        ";
+  return buffer;
+  }
+function program4(depth0,data) {
+  
+  var buffer = "", stack1, helper;
+  buffer += "\n                <a href=\"#details/";
+  if (helper = helpers.time) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.time); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">\n                <figure class=\"";
+  if (helper = helpers.klass) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.klass); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "\">\n                    <img class=\"img\"/>\n                    <figcaption>\n                        <div>\n                            <h4><span class=\"time\">";
+  if (helper = helpers.time) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.time); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</span> </h4>\n                            <p>\n                                <canvas class=\""
+    + escapeExpression(((stack1 = (depth0 && depth0.icon)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "\" width=\"111\" height=\"111\">";
+  if (helper = helpers.icon) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.icon); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</canvas>\n                            </p>\n\n                        </div>\n\n                        <h2 class=\"\">";
+  if (helper = helpers.summary) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.summary); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</h2>\n\n                    </figcaption>\n                </figure>\n                </a>\n            ";
+  return buffer;
+  }
+
+  buffer += "\n\n<div id=\"content\">\n    <div class=\"grid\">\n        <header class=\"codrops-headers\" style=\"background-size: cover;background-repeat: no-repeat;\">\n            <h1>Current weather</h1>\n            <canvas id=\"icon\" width=\"128\" height=\"128\"></canvas>\n            <h1>";
+  if (helper = helpers.rightNow) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.rightNow); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + " - ";
+  if (helper = helpers.tempC) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.tempC); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</h1>\n\n            ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.alert), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n\n        </header>\n\n        <h3> "
+    + escapeExpression(((stack1 = ((stack1 = (depth0 && depth0.daily)),stack1 == null || stack1 === false ? stack1 : stack1.summary)),typeof stack1 === functionType ? stack1.apply(depth0) : stack1))
+    + "</h3>\n\n        ";
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.daily), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
+  if(stack1 || stack1 === 0) { buffer += stack1; }
+  buffer += "\n    </div>\n</div>\n<div id=\"deets\">\n    <div class=\"overlay close\" style=\"display: none\"></div>\n</div>";
+  return buffer;
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("modules/home/tempModel", function(exports, require, module) {
+/**
+* Created by jakeforaker on 2/26/14.
+*/
+var Temp = Backbone.Model.extend({
+
+    defaults:{
+        icon: '',
+        tempC: '',
+        tempCFeel: ''
+    }
+});
+
+
+module.exports = Temp;
+});
+
+;require.register("modules/home/views", function(exports, require, module) {
+var template = require('./home');
+var TempModel = require('./tempModel');
+var ForecastCollection = require('modules/home/Collection');
+var utils = require('modules/common/forecast_config');
+
+var HomeView = Backbone.View.extend({
+    template: template,
+    model: TempModel,
+    el: "#main",
+    initialize: function(){
+
+        this.collection = new ForecastCollection();
+
+        var newFore = new utils();
+        console.log(newFore);
+        var that = this;
+
+        function getval( callback ){
+            $.getJSON(newFore.url + newFore.apiKey + "/" + newFore.lat + "," + newFore.long + "?callback=?", function(data) {
+                callback(data);
+            });
+        }
+
+        getval( function ( o ) {
+            var modd = new TempModel({
+                data : o,
+                tempC: o.currently.temperature,
+                tempCFeel: o.currently.apparentTemperature,
+                icon: o.currently.icon
+            });
+            console.log(modd);
+
+            that.render(modd);
+        });
+
+        /*
+         Key:
+         08db47bcad763eaab656eb51e4726090
+
+         Secret:
+         abb098b40a36e159
+         https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=97bf61b0cb5de432ad70112467e1d734&tags=sun&format=json&nojsoncallback=1
+         https://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
+         */
+
+
+
+    },
+
+    getDayName: function(){
+        return 'wednesday'
+    },
+
+    render: function(model){
+        $('#temp').hide();
+        var skyconTop = new Skycons({
+            "color": "white"
+        });
+        var icooo = typeof model.get('icon') !== 'undefined' ? model.get('icon') : '';
+
+
+
+
+        var alerts = model.attributes.data.alerts;
+        var time = model.attributes.data.currently.time;
+
+        var bgimage = function(){
+            var u = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=08db47bcad763eaab656eb51e4726090&&tags='+encodeURI(icooo)+'&media=photos&per_page=10&page=1&format=json&nojsoncallback=1';
+            console.log(u);
+            $.getJSON(u, function(d) {
+                var num = Math.floor(Math.random() * 10) + 1;
+                var b = 'https://farm'+d.photos.photo[num].farm+'.staticflickr.com/'+d.photos.photo[num].server+'/'+d.photos.photo[num].id+'_'+d.photos.photo[num].secret+'_b.jpg';
+                console.log(b)
+                $('.codrops-header').css('background-image', 'url(' + b + ')');
+
+            });
+
+        };
+
+        bgimage();
+        console.log(model)
+
+        this.$el.html(this.template({
+            rightNow: model.attributes.data.currently.summary,
+            time: moment.unix(time).format(" h:mm:ss a" + " " + "MM/DD/YYYY"),
+            alert: alerts,
+            summary: model.get('summary'),
+            tempC: model.get('tempC'),
+            tempCFeel: model.get('tempCFeel'),
+            icon: model.get('icon'),
+            daily: model.attributes.data.daily
+        }));
+
+
+        skyconTop.set( 'icon', icooo.toUpperCase());
+        var icons = new Skycons({"color":"white"}),
+            list = [
+                "clear-day",
+                "clear-night",
+                "partly-cloudy-day",
+                "partly-cloudy-night",
+                "cloudy",
+                "rain",
+                "sleet",
+                "snow",
+                "wind",
+                "fog"
+            ],
+            klasses = [
+                "effect-lily",
+                "effect-marley",
+                "effect-roxy",
+                "effect-bubba",
+                "effect-layla",
+                "effect-marley",
+                "effect-ruby",
+                "effect-sarah"
+            ],
+            i;
+
+        for(i = list.length; i--; ) {
+            var weatherType = list[i],
+                elements = document.getElementsByClassName(weatherType);
+
+            for (var e = elements.length; e--;){
+
+                icons.set( elements[e], weatherType );
+
+            }
+        }
+
+
+
+
+        for(var a = 0; a < klasses.length; a++ ) {
+            var klass = klasses[a];
+            var els = $('figure');
+            var imgs = $('.img');
+
+            $(els[a]).addClass( klass );
+        }
+
+        var fig = $('figure');
+
+        function encoder(query){
+            var str = query;
+            str = str.replace(/-/g, ' ');
+            return str
+        }
+
+        fig.each(function(i, figure){
+            var iconName = $(this).find('canvas').attr('class'); //same as icon name
+            var q = encoder(iconName);
+            var that = $(this);
+
+            var firstDay = moment.unix($(this).find('.time').text()).format("dddd");
+            $(this).find('.time').text(firstDay);
+
+            (function getPic(){
+                var url = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=08db47bcad763eaab656eb51e4726090&&tags='+encodeURI(q)+'&media=photos&per_page=10&page=1&format=json&nojsoncallback=1';
+                console.log(url);
+                $.getJSON(url, function(d) {
+                    var num = Math.floor(Math.random() * 10) + 1;
+                    var build = 'https://farm'+d.photos.photo[num].farm+'.staticflickr.com/'+d.photos.photo[num].server+'/'+d.photos.photo[num].id+'_'+d.photos.photo[num].secret+'.jpg';
+                    that.find('img').attr('src', build);
+                });
+            })();
+        });
+
+        icons.play();
+        skyconTop.play();
+
+        return this;
+    }
+});
+
+module.exports = HomeView;
+});
+
+;require.register("router", function(exports, require, module) {
+var HomeView = require('modules/home/views');
+var DetailsView = require('modules/home/details');
+var utils = require('modules/common/forecast_config');
+var DetailsModel = require('modules/home/detailsModel');
+
+module.exports = Backbone.Router.extend({
+    routes: {
+        '': 'home',
+        'details/:id': 'details'
+    },
+
+    home: function() {
+        console.log('home');
+        $('#main').html(new HomeView().render());
+    },
+
+    details: function(id){
+        var that =this;
+        console.log('IIIDDD ==  ' + id);
+        var newFore = new utils();
+        this.time = id;
+        var  detailsView = new DetailsView();
+//
+//
+//        function getval( callback ){
+//            $.getJSON(newFore.url + newFore.apiKey + "/" + newFore.lat + "," + newFore.long + "," + that.time + "?callback=?", function(data) {
+//                callback(data);
+//            });
+//        }
+//
+//        getval( function ( o ) {
+//            var modd = new DetailsModel({
+//                data : o
+//            });
+//            console.log(modd);
+//
+//           // that.render(modd);
+//            $('#main').html(detailsView.render(modd).$el);
+//            detailsView.delegateEvents();
+//
+//        });
+        detailsView.initialize(id);
+
+    }
+
+});
+
+});
+
+;
+//# sourceMappingURL=app.js.map
