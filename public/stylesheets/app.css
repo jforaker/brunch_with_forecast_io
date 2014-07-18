@@ -227,6 +227,12 @@ section {
 /*---------------*/
 /***** Lily *****/
 /*---------------*/
+p.hover {
+  opacity: 1 !important; }
+
+h2.hover {
+  -webkit-transform: translate3d(0, -41px, 0); }
+
 figure.effect-lily img {
   width: calc(100% + 50px);
   opacity: 0.7;
@@ -250,12 +256,12 @@ figure.effect-lily p {
   opacity: 0;
   -webkit-transition: opacity 0.2s, -webkit-transform 0.35s;
   transition: opacity 0.2s, transform 0.35s; }
-figure.effect-lily:hover img, figure.effect-lily:hover p {
+figure.effect-lily:hover img, figure.effect-lily:hover p, figure.effect-lily .hover img, figure.effect-lily .hover p {
   opacity: 1; }
-figure.effect-lily:hover img, figure.effect-lily:hover h2 {
+figure.effect-lily:hover img, figure.effect-lily:hover h2, figure.effect-lily .hover img, figure.effect-lily .hover h2 {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
-figure.effect-lily:hover p {
+figure.effect-lily:hover p, figure.effect-lily .hover p {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   -webkit-transition-delay: 0.05s;
@@ -298,11 +304,11 @@ figure.effect-sadie p {
   opacity: 0;
   -webkit-transform: translate3d(0, 10px, 0);
   transform: translate3d(0, 10px, 0); }
-figure.effect-sadie:hover h2 {
+figure.effect-sadie:hover h2, figure.effect-sadie .hover h2 {
   color: white;
   -webkit-transform: translate3d(0, -50%, 0) translate3d(0, -40px, 0);
   transform: translate3d(0, -50%, 0) translate3d(0, -40px, 0); }
-figure.effect-sadie:hover figcaption::before, figure.effect-sadie:hover p {
+figure.effect-sadie:hover figcaption::before, figure.effect-sadie:hover p, figure.effect-sadie .hover figcaption::before, figure.effect-sadie .hover p {
   opacity: 1;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
@@ -775,6 +781,10 @@ figure.effect-sarah {
     transform: translate3d(-10px, 0, 0);
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden; }
+    figure.effect-sarah img.hover {
+      opacity: 0.4;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0); }
   figure.effect-sarah:hover img {
     opacity: 0.4;
     -webkit-transform: translate3d(0, 0, 0);
@@ -807,7 +817,7 @@ figure.effect-sarah {
     transition: opacity 0.35s, transform 0.35s;
     -webkit-transform: translate3d(100%, 0, 0);
     transform: translate3d(100%, 0, 0); }
-  figure.effect-sarah:hover p {
+  figure.effect-sarah:hover p, figure.effect-sarah .hover p {
     opacity: 1;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0); }
@@ -1204,6 +1214,12 @@ section {
 /*---------------*/
 /***** Lily *****/
 /*---------------*/
+p.hover {
+  opacity: 1 !important; }
+
+h2.hover {
+  -webkit-transform: translate3d(0, -41px, 0); }
+
 figure.effect-lily img {
   width: calc(100% + 50px);
   opacity: 0.7;
@@ -1227,12 +1243,12 @@ figure.effect-lily p {
   opacity: 0;
   -webkit-transition: opacity 0.2s, -webkit-transform 0.35s;
   transition: opacity 0.2s, transform 0.35s; }
-figure.effect-lily:hover img, figure.effect-lily:hover p {
+figure.effect-lily:hover img, figure.effect-lily:hover p, figure.effect-lily .hover img, figure.effect-lily .hover p {
   opacity: 1; }
-figure.effect-lily:hover img, figure.effect-lily:hover h2 {
+figure.effect-lily:hover img, figure.effect-lily:hover h2, figure.effect-lily .hover img, figure.effect-lily .hover h2 {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
-figure.effect-lily:hover p {
+figure.effect-lily:hover p, figure.effect-lily .hover p {
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   -webkit-transition-delay: 0.05s;
@@ -1275,11 +1291,11 @@ figure.effect-sadie p {
   opacity: 0;
   -webkit-transform: translate3d(0, 10px, 0);
   transform: translate3d(0, 10px, 0); }
-figure.effect-sadie:hover h2 {
+figure.effect-sadie:hover h2, figure.effect-sadie .hover h2 {
   color: white;
   -webkit-transform: translate3d(0, -50%, 0) translate3d(0, -40px, 0);
   transform: translate3d(0, -50%, 0) translate3d(0, -40px, 0); }
-figure.effect-sadie:hover figcaption::before, figure.effect-sadie:hover p {
+figure.effect-sadie:hover figcaption::before, figure.effect-sadie:hover p, figure.effect-sadie .hover figcaption::before, figure.effect-sadie .hover p {
   opacity: 1;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0); }
@@ -1752,6 +1768,10 @@ figure.effect-sarah {
     transform: translate3d(-10px, 0, 0);
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden; }
+    figure.effect-sarah img.hover {
+      opacity: 0.4;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0); }
   figure.effect-sarah:hover img {
     opacity: 0.4;
     -webkit-transform: translate3d(0, 0, 0);
@@ -1784,7 +1804,7 @@ figure.effect-sarah {
     transition: opacity 0.35s, transform 0.35s;
     -webkit-transform: translate3d(100%, 0, 0);
     transform: translate3d(100%, 0, 0); }
-  figure.effect-sarah:hover p {
+  figure.effect-sarah:hover p, figure.effect-sarah .hover p {
     opacity: 1;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0); }

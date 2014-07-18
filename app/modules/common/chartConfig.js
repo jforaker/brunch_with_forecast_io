@@ -3,7 +3,8 @@
  */
 var chartConfig = (function() {
 
-    var chartOptions = {
+    var chartOptions;
+    chartOptions = {
         // Boolean - Whether to animate the chart
         animation: true,
 
@@ -28,7 +29,7 @@ var chartConfig = (function() {
         scaleStartValue: null,
 
         // String - Colour of the scale line
-        scaleLineColor: "rgba(0,0,0,.1)",
+        scaleLineColor: "white",
 
         // Number - Pixel width of the scale line
         scaleLineWidth: 1,
@@ -37,7 +38,7 @@ var chartConfig = (function() {
         scaleShowLabels: true,
 
         // Interpolated JS string - can access value
-        scaleLabel: "<%=value%>",
+        scaleLabel: "<%=value%>\u00B0",
 
         // Boolean - Whether the scale should stick to integers, not floats even if drawing space is there
         scaleIntegersOnly: true,
@@ -49,16 +50,16 @@ var chartConfig = (function() {
         scaleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 
         // Number - Scale label font size in pixels
-        scaleFontSize: 12,
+        scaleFontSize: 16,
 
         // String - Scale label font weight style
         scaleFontStyle: "normal",
 
         // String - Scale label font colour
-        scaleFontColor: "#666",
+        scaleFontColor: "white",
 
         // Boolean - whether or not the chart should be responsive and resize when the browser does.
-        responsive: false,
+        responsive: ($(window).width() < 500),
 
         // Boolean - Determines whether to draw tooltips on the canvas or not
         showTooltips: true,
@@ -73,7 +74,7 @@ var chartConfig = (function() {
         tooltipFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 
         // Number - Tooltip label font size in pixels
-        tooltipFontSize: 20,
+        tooltipFontSize: 12,
 
         // String - Tooltip font weight style
         tooltipFontStyle: "normal",
@@ -85,10 +86,10 @@ var chartConfig = (function() {
         tooltipTitleFontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 
         // Number - Tooltip title font size in pixels
-        tooltipTitleFontSize: 20,
+        tooltipTitleFontSize: 12,
 
         // String - Tooltip title font weight style
-        tooltipTitleFontStyle: "bold",
+        tooltipTitleFontStyle: "normal",
 
         // String - Tooltip title font colour
         tooltipTitleFontColor: "#fff",
@@ -112,13 +113,15 @@ var chartConfig = (function() {
         tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
 
         // String - Template string for single tooltips
-        multiTooltipTemplate: "<%= value %>",
+        multiTooltipTemplate: "<%= value %> degrees",
 
         // Function - Will fire on animation progression.
-        onAnimationProgress: function(){},
+        onAnimationProgress: function () {
+        },
 
         // Function - Will fire on animation completion.
-        onAnimationComplete: function(){}
+        onAnimationComplete: function () {
+        }
     };
     return chartOptions
 
