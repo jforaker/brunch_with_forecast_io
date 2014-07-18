@@ -47,16 +47,20 @@ var DetailsView = Backbone.View.extend({
         var a = new ShowOverlay();
         var temps = [];
         var precipProbability = [];
+        var times = [];
         for(var x = 0; x < model.attributes.data.hourly.data.length; x++){
             var data = model.attributes.data.hourly.data[x];
             temps.push(data.temperature);
+            times.push(x);
             precipProbability.push(data.precipProbability);
         }
         var dat = {
             /*
              12AM 2AM 4AM 6AM 8AM 10AM noon 2PM 4PM 6PM 8PM 10PM
              */
-            labels: ["12AM", "2AM", "4AM", "6AM", "8AM", "10AM", "noon", "2PM", "4PM", "6PM", "8PM", "10PM", "3", "4", "5", "6", "7", "8", "9", "10", "asdf", "asdf", "asdf", "asdf"],
+            labels: ["12AM", "1AM", "2AM", "3AM", "4AM", "5AM", "6AM", "7AM", "8AM", "9AM", "10AM", "11AM", "Noon", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM", "9PM", "10PM", "11PM"],
+           // labels: [times],
+
             datasets: [
                 {
                     label: "My First dataset",
