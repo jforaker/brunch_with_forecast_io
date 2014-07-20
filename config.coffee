@@ -53,7 +53,7 @@ exports.config =
 
 # Settings of web server that will run with `brunch watch [--server]`.
   server:
-#    # Path to your server node.js module.
+#    # Path to your server node.js module. 
 #    # If it's commented-out, brunch will use built-in express.js server.
 #    path: 'server.coffee'
 #    port: 3333
