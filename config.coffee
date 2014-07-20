@@ -2,6 +2,12 @@ exports.config =
   plugins:
     less:
       dumpLineNumbers: 'comments'
+    uglify:
+      mangle: false
+      compress:
+        global_defs:
+          DEBUG: false
+
 # Edit the next line to change default build path.
   paths:
     public: 'public'
@@ -46,11 +52,14 @@ exports.config =
   framework: 'backbone'
 
 # Settings of web server that will run with `brunch watch [--server]`.
-# server:
+  server:
 #    # Path to your server node.js module.
 #    # If it's commented-out, brunch will use built-in express.js server.
 #    path: 'server.coffee'
 #    port: 3333
 #
 #    # Run even without `--server` option?
-#    run: yes
+    run: yes
+    
+  onCompile: (generatedFiles) ->
+    console.log generatedFiles.map (f) -> f.path

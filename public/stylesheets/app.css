@@ -684,7 +684,6 @@ figure.effect-ruby {
   figure.effect-ruby p {
     margin: 1em 0 0;
     padding: 3em;
-    border: 1px solid white;
     opacity: 0;
     -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
     transition: opacity 0.35s, transform 0.35s;
@@ -790,7 +789,8 @@ figure.effect-sarah {
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0); }
   figure.effect-sarah figcaption {
-    text-align: left; }
+    text-align: left;
+    padding-left: 2em; }
   figure.effect-sarah h2 {
     position: relative;
     overflow: hidden;
@@ -864,45 +864,6 @@ figure.effect-zoe figcaption > span {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale; }
 
-/*---------------*/
-/***** Sadie *****/
-/*---------------*/
-/*---------------*/
-/***** Roxy *****/
-/*---------------*/
-/*---------------*/
-/***** Bubba *****/
-/*---------------*/
-/*---------------*/
-/***** Romeo *****/
-/*---------------*/
-/*---------------*/
-/***** Layla *****/
-/*---------------*/
-/*---------------*/
-/***** Honey *****/
-/*---------------*/
-/*---------------*/
-/***** Oscar *****/
-/*---------------*/
-/*---------------*/
-/***** Marley *****/
-/*---------------*/
-/*---------------*/
-/***** Ruby *****/
-/*---------------*/
-/*---------------*/
-/***** Milo *****/
-/*---------------*/
-/*---------------*/
-/***** Dexter *****/
-/*---------------*/
-/*---------------*/
-/***** Sarah *****/
-/*---------------*/
-/*---------------*/
-/***** Zoe *****/
-/*---------------*/
 .icon-eye::before {
   content: '\e000'; }
 
@@ -982,7 +943,9 @@ figure.effect-chico:hover figcaption::before, figure.effect-chico:hover p {
 
 @media screen and (max-width: 41.5em) {
   .grid figure {
-    width: 100%; } }
+    width: 100%; }
+  .overlay figure {
+    width: calc(100% + 0px) !important; } }
 
 /* Overlay style */
 *, *:after, *:before {
@@ -1671,7 +1634,6 @@ figure.effect-ruby {
   figure.effect-ruby p {
     margin: 1em 0 0;
     padding: 3em;
-    border: 1px solid white;
     opacity: 0;
     -webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
     transition: opacity 0.35s, transform 0.35s;
@@ -1777,7 +1739,8 @@ figure.effect-sarah {
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0); }
   figure.effect-sarah figcaption {
-    text-align: left; }
+    text-align: left;
+    padding-left: 2em; }
   figure.effect-sarah h2 {
     position: relative;
     overflow: hidden;
@@ -1851,45 +1814,6 @@ figure.effect-zoe figcaption > span {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale; }
 
-/*---------------*/
-/***** Sadie *****/
-/*---------------*/
-/*---------------*/
-/***** Roxy *****/
-/*---------------*/
-/*---------------*/
-/***** Bubba *****/
-/*---------------*/
-/*---------------*/
-/***** Romeo *****/
-/*---------------*/
-/*---------------*/
-/***** Layla *****/
-/*---------------*/
-/*---------------*/
-/***** Honey *****/
-/*---------------*/
-/*---------------*/
-/***** Oscar *****/
-/*---------------*/
-/*---------------*/
-/***** Marley *****/
-/*---------------*/
-/*---------------*/
-/***** Ruby *****/
-/*---------------*/
-/*---------------*/
-/***** Milo *****/
-/*---------------*/
-/*---------------*/
-/***** Dexter *****/
-/*---------------*/
-/*---------------*/
-/***** Sarah *****/
-/*---------------*/
-/*---------------*/
-/***** Zoe *****/
-/*---------------*/
 .icon-eye::before {
   content: '\e000'; }
 
@@ -1969,7 +1893,9 @@ figure.effect-chico:hover figcaption::before, figure.effect-chico:hover p {
 
 @media screen and (max-width: 41.5em) {
   .grid figure {
-    width: 100%; } }
+    width: 100%; }
+  .overlay figure {
+    width: calc(100% + 0px) !important; } }
 
 .overlay {
   position: fixed;

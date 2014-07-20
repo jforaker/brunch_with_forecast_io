@@ -890,7 +890,7 @@ var HomeView = Backbone.View.extend({
                 "fog"
             ],
             klasses = [
-                "effect-lily",
+                "effect-layla",
                 "effect-marley",
                 "effect-roxy",
                 "effect-bubba",
